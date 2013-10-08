@@ -44,4 +44,22 @@
 (eval-after-load "auto-complete"
   '(add-to-list 'ac-modes 'nrepl-mode))
 (add-hook 'nrepl-mode-hook 'ac-nrepl-setup)
- 
+
+(if (featurep 'ns)
+    (progn
+      (defun ns-raise-emacs ()
+        "Raise Emacs."
+        (ns-do-applescript "tell application \"Emacs\" to activate"))
+
+      (if (display-graphic-p)
+          (progn
+            (add-hook 'server-visit-hook 'ns-raise-emacs)
+            (add-hook 'before-make-frame-hook 'ns-raise-emacs)
+            (ns-raise-emacs)))))
+
+
+(if (not (getenv "TERM_PROGRAM"))
+      (let ((path (shell-command-to-string
+              "$SHELL -cl \"printf %s \\\"\\\$PATH\\\"\"")))
+        (setenv "PATH" path)))
+
