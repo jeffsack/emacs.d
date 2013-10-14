@@ -11,7 +11,7 @@
   (package-refresh-contents))
 
 ;; Add in your own as you wish:
-(defvar my-packages '(starter-kit starter-kit-lisp starter-kit-eshell starter-kit-bindings clojure-mode clojure-test-mode nrepl projectile magit ac-nrepl rainbow-delimiters)
+(defvar my-packages '(starter-kit starter-kit-lisp starter-kit-eshell starter-kit-bindings clojure-mode clojure-test-mode nrepl projectile magit auto-complete ac-nrepl rainbow-delimiters)
   "A list of packages to ensure are installed at launch.")
 
 (dolist (p my-packages)
@@ -41,9 +41,10 @@
 
 ;; Auto completion for NREPL
 (require 'ac-nrepl)
+(add-hook 'nrepl-interaction-mode-hook 'ac-nrepl-setup)
+(add-hook 'nrepl-mode-hook 'ac-nrepl-setup)
 (eval-after-load "auto-complete"
   '(add-to-list 'ac-modes 'nrepl-mode))
-(add-hook 'nrepl-mode-hook 'ac-nrepl-setup)
 
 (if (featurep 'ns)
     (progn
