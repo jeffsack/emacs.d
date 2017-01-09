@@ -170,6 +170,7 @@
 
 
 
+;; TODO: consider switching https://github.com/Fuco1/smartparens
 (use-package paredit
   :ensure t
   :diminish paredit-mode
@@ -198,7 +199,10 @@
   :config
   (global-aggressive-indent-mode 1))
 
-
+(use-package color-identifiers-mode
+  :ensure t
+  :config
+  (global-color-identifiers-mode))
 
 
 ;; http://company-mode.github.io/
@@ -263,7 +267,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (clj-refactor aggressive-indent beacon cider restclient which-key use-package rainbow-delimiters paredit-everywhere magit company-flx bm))))
+    (color-identifiers-mode clj-refactor aggressive-indent beacon cider restclient which-key use-package rainbow-delimiters paredit-everywhere magit company-flx bm))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
