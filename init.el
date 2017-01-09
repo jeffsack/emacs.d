@@ -1,5 +1,21 @@
-1
+
 (message "inside init.el")
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes (quote (sanityinc-tomorrow-night)))
+ '(custom-safe-themes
+   (quote
+    ("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 
 (package-initialize)
 
@@ -11,7 +27,7 @@
 (setq user-full-name "Jeff Sack")
 (setq user-mail-address "jeff@centriqhome.com")
 
-(menu-bar-mode 1)
+(menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
@@ -251,26 +267,16 @@
   :pin melpa-stable
   :config
   (add-hook 'clojure-mode-hook (lambda ()
-                                 (clj-refactor-mode 1)
-                                 ;; insert keybinding setup here
-                                 ))
+                                 (clj-refactor-mode 1)))
   (cljr-add-keybindings-with-prefix "C-c C-m")
-  (setq cljr-warn-on-eval nil)
-  ;;:bind ("C-c '" . hydra-cljr-help-menu/body)
-  )
+  (setq cljr-warn-on-eval nil))
 
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (color-identifiers-mode clj-refactor aggressive-indent beacon cider restclient which-key use-package rainbow-delimiters paredit-everywhere magit company-flx bm))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+(use-package color-theme-sanityinc-tomorrow
+  :ensure t
+  :config
+  (color-theme-sanityinc-tomorrow-night))
+
+
+(message "done init.el...")
+
