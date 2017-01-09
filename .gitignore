@@ -17,6 +17,7 @@ cookies
 /newsticker
 /ac-comphist.dat
 \#*
+.#*
 /elpa
 site-lisp/package/
 /swank
@@ -24,3 +25,4 @@ site-lisp/package/
 /var
 /.sqli_history
 /frame-restore-parameters
+bm-repository
