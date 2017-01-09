@@ -1,4 +1,4 @@
-
+1
 (message "inside init.el")
 
 (package-initialize)
@@ -82,21 +82,6 @@
   (error
    (package-refresh-contents)
    (init--install-packages)))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (company-flx company rainbow-delimiters paredit-everywhere paredit which-key bm use-package))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-
 
 ;; so we can just type `y` or `n`
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -168,6 +153,10 @@
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
 (setq mouse-wheel-progressive-speed nil)
 
+(use-package beacon
+  :ensure t
+  :config
+  (beacon-mode 1))
 
 
 ;; set up which-key
@@ -204,6 +193,14 @@
             (lambda()
               (rainbow-delimiters-mode))))
 
+(use-package aggressive-indent
+  :ensure t
+  :config
+  (global-aggressive-indent-mode 1))
+
+
+
+
 ;; http://company-mode.github.io/
 ;; https://github.com/PythonNut/company-flx
 (use-package company
@@ -219,5 +216,57 @@
     :config
     (company-flx-mode +1)))
 
-;; In order for Emacs to recognise .boot files as valid Clojure source code
-(add-to-list 'auto-mode-alist '("\\.boot\\'" . clojure-mode))
+;; git configuration
+;; https://magit.vc/
+(use-package magit
+  :ensure t
+  :bind (("C-c m" . magit-status)))
+
+;; https://github.com/pashky/restclient.el
+(use-package restclient
+  :ensure t)
+
+(use-package cider
+  :ensure t
+  :pin melpa-stable
+  :config
+  (add-hook 'cider-mode-hook #'eldoc-mode)
+  (add-hook 'cider-repl-mode-hook #'eldoc-mode)
+  (add-hook 'clojure-mode-hook #'paredit-mode)
+  (add-hook 'cider-repl-mode-hook #'paredit-mode)
+  (add-hook 'cider-repl-mode-hook #'subword-mode)
+  (setq cider-repl-use-pretty-printing t)
+  ;; In order for Emacs to recognise .boot files as valid Clojure source code
+  (add-to-list 'auto-mode-alist '("\\.boot\\'" . clojure-mode))
+  :bind (("M-r" . cider-namespace-refresh)
+         ("C-c r" . cider-repl-reset)
+         ("C-c ." . cider-reset-test-run-tests)))
+
+(use-package clj-refactor
+  :ensure t
+  :pin melpa-stable
+  :config
+  (add-hook 'clojure-mode-hook (lambda ()
+                                 (clj-refactor-mode 1)
+                                 ;; insert keybinding setup here
+                                 ))
+  (cljr-add-keybindings-with-prefix "C-c C-m")
+  (setq cljr-warn-on-eval nil)
+  ;;:bind ("C-c '" . hydra-cljr-help-menu/body)
+  )
+
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (clj-refactor aggressive-indent beacon cider restclient which-key use-package rainbow-delimiters paredit-everywhere magit company-flx bm))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
