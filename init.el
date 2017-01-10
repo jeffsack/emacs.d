@@ -182,21 +182,24 @@
   :config
   (global-set-key (kbd "C-c g") 'avy-goto-char))
 
+;; highlight cursor when it moves
 (use-package beacon
   :ensure t
   :config
   (beacon-mode 1))
 
+;; turn on line highlighting:
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Cursor-Display.html#index-highlight-current-line
+(global-hl-line-mode t)
+
 
 ;; set up which-key
-
 (use-package which-key
   :ensure t
   :diminish which-key-mode
   :config
   (which-key-mode)
   (setq which-key-idle-delay 0.0))
-
 
 
 ;; TODO: consider switching https://github.com/Fuco1/smartparens
@@ -291,5 +294,11 @@
   (color-theme-sanityinc-tomorrow-night))
 
 
+;; always auto-revert file buffers
+(global-auto-revert-mode t)
+
+;; TODO: expand-region, multiple-cursors, projectile, ivy/swiper/cousel, iedit, smart-parens (remove paredit)
+
 (message "done init.el...")
+
 
