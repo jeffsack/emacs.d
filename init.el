@@ -10,6 +10,7 @@
  '(custom-safe-themes
    (quote
     ("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default)))
+ '(ido-mode (quote both) nil (ido))
  '(package-selected-packages
    (quote
     (ace-window which-key use-package restclient rainbow-delimiters paredit-everywhere magit company-flx color-theme-sanityinc-tomorrow color-identifiers-mode clj-refactor bm beacon aggressive-indent))))
@@ -274,9 +275,8 @@
   (setq cider-repl-use-pretty-printing t)
   ;; In order for Emacs to recognise .boot files as valid Clojure source code
   (add-to-list 'auto-mode-alist '("\\.boot\\'" . clojure-mode))
-  :bind (("M-r" . cider-namespace-refresh)
-         ("C-c r" . cider-repl-reset)
-         ("C-c ." . cider-reset-test-run-tests)))
+  (setq cider-refresh-before-fn "boot.user/stop"
+	cider-refresh-after-fn "boot.user/go"))
 
 (use-package clj-refactor
   :ensure t
@@ -297,7 +297,13 @@
 ;; always auto-revert file buffers
 (global-auto-revert-mode t)
 
-;; TODO: expand-region, multiple-cursors, projectile, ivy/swiper/cousel, iedit, smart-parens (remove paredit)
+;; TODO: recentf, expand-region, multiple-cursors, projectile, ivy/swiper/cousel, iedit, smart-parens (remove paredit)
+
+(use-package ag
+  :ensure t)
+
+(ido-mode)
+(ido-everywhere)
 
 (message "done init.el...")
 

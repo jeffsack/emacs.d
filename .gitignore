@@ -26,3 +26,4 @@ site-lisp/package/
 /.sqli_history
 /frame-restore-parameters
 bm-repository
+ido.last
