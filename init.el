@@ -13,7 +13,7 @@
  '(ido-mode (quote both) nil (ido))
  '(package-selected-packages
    (quote
-    (ace-window which-key use-package restclient rainbow-delimiters paredit-everywhere magit company-flx color-theme-sanityinc-tomorrow color-identifiers-mode clj-refactor bm beacon aggressive-indent))))
+    (window-number window-numbering multiple-cursors try counsel ace-window which-key use-package restclient rainbow-delimiters paredit-everywhere magit company-flx color-theme-sanityinc-tomorrow color-identifiers-mode clj-refactor bm beacon aggressive-indent))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -24,6 +24,7 @@
 (package-initialize)
 
 (setq init-dir (file-name-directory (or load-file-name (buffer-file-name))))
+(setq site-lisp (concat init-dir "site-lisp"))
 
 ;; mostly stolen from: https://gitlab.com/buildfunthings/emacs-config/blob/master/loader.org
 
@@ -109,74 +110,84 @@
 
 
 ;; bookmarks package
-(use-package bm
-  :ensure t
-  :demand t
+;; (use-package bm
+;;   :ensure t
+;;   :demand t
 
-  :init
-  ;; restore on load (even before you require bm)
-  (setq bm-restore-repository-on-load t)
-
-
-  :config
-  ;; Allow cross-buffer 'next'
-  (setq bm-cycle-all-buffers t)
-
-  ;; where to store persistant files
-  (setq bm-repository-file "~/.emacs.d/bm-repository")
-
-  ;; save bookmarks
-  (setq-default bm-buffer-persistence t)
-
-  ;; Loading the repository from file when on start up.
-  (add-hook' after-init-hook 'bm-repository-load)
-
-  ;; Restoring bookmarks when on file find.
-  (add-hook 'find-file-hooks 'bm-buffer-restore)
-
-  ;; Saving bookmarks
-  (add-hook 'kill-buffer-hook #'bm-buffer-save)
-
-  ;; Saving the repository to file when on exit.
-  ;; kill-buffer-hook is not called when Emacs is killed, so we
-  ;; must save all bookmarks first.
-  (add-hook 'kill-emacs-hook #'(lambda nil
-				 (bm-buffer-save-all)
-				 (bm-repository-save)))
-
-  ;; The `after-save-hook' is not necessary to use to achieve persistence,
-  ;; but it makes the bookmark data in repository more in sync with the file
-  ;; state.
-  (add-hook 'after-save-hook #'bm-buffer-save)
-
-  ;; Restoring bookmarks
-  (add-hook 'find-file-hooks   #'bm-buffer-restore)
-  (add-hook 'after-revert-hook #'bm-buffer-restore)
-
-  ;; The `after-revert-hook' is not necessary to use to achieve persistence,
-  ;; but it makes the bookmark data in repository more in sync with the file
-  ;; state. This hook might cause trouble when using packages
-  ;; that automatically reverts the buffer (like vc after a check-in).
-  ;; This can easily be avoided if the package provides a hook that is
-  ;; called before the buffer is reverted (like `vc-before-checkin-hook').
-  ;; Then new bookmarks can be saved before the buffer is reverted.
-  ;; Make sure bookmarks is saved before check-in (and revert-buffer)
-  (add-hook 'vc-before-checkin-hook #'bm-buffer-save)
+;;   :init
+;;   ;; restore on load (even before you require bm)
+;;   (setq bm-restore-repository-on-load t)
 
 
-  :bind (("<f2>" . bm-next)
-	 ("S-<f2>" . bm-previous)
-	 ("C-<f2>" . bm-toggle)))
+;;   :config
+;;   ;; Allow cross-buffer 'next'
+;;   (setq bm-cycle-all-buffers t)
+
+;;   ;; where to store persistant files
+;;   (setq bm-repository-file "~/.emacs.d/bm-repository")
+
+;;   ;; save bookmarks
+;;   (setq-default bm-buffer-persistence t)
+
+;;   ;; Loading the repository from file when on start up.
+;;   (add-hook' after-init-hook 'bm-repository-load)
+
+;;   ;; Restoring bookmarks when on file find.
+;;   (add-hook 'find-file-hooks 'bm-buffer-restore)
+
+;;   ;; Saving bookmarks
+;;   (add-hook 'kill-buffer-hook #'bm-buffer-save)
+
+;;   ;; Saving the repository to file when on exit.
+;;   ;; kill-buffer-hook is not called when Emacs is killed, so we
+;;   ;; must save all bookmarks first.
+;;   (add-hook 'kill-emacs-hook #'(lambda nil
+;; 				 (bm-buffer-save-all)
+;; 				 (bm-repository-save)))
+
+;;   ;; The `after-save-hook' is not necessary to use to achieve persistence,
+;;   ;; but it makes the bookmark data in repository more in sync with the file
+;;   ;; state.
+;;   (add-hook 'after-save-hook #'bm-buffer-save)
+
+;;   ;; Restoring bookmarks
+;;   (add-hook 'find-file-hooks   #'bm-buffer-restore)
+;;   (add-hook 'after-revert-hook #'bm-buffer-restore)
+
+;;   ;; The `after-revert-hook' is not necessary to use to achieve persistence,
+;;   ;; but it makes the bookmark data in repository more in sync with the file
+;;   ;; state. This hook might cause trouble when using packages
+;;   ;; that automatically reverts the buffer (like vc after a check-in).
+;;   ;; This can easily be avoided if the package provides a hook that is
+;;   ;; called before the buffer is reverted (like `vc-before-checkin-hook').
+;;   ;; Then new bookmarks can be saved before the buffer is reverted.
+;;   ;; Make sure bookmarks is saved before check-in (and revert-buffer)
+;;   (add-hook 'vc-before-checkin-hook #'bm-buffer-save)
+
+
+;;   :bind (("<f2>" . bm-next)
+;; 	 ("S-<f2>" . bm-previous)
+;; 	 ("C-<f2>" . bm-toggle)))
 
 
 ;; Mousewheel scrolling can be quite annoying, lets fix it to scroll smoothly.
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1) ((control) . nil)))
 (setq mouse-wheel-progressive-speed nil)
 
-(use-package ace-window
+(use-package try
+  :ensure t)
+
+;; (use-package ace-window
+;;   :ensure t
+;;   :config
+;;   (global-set-key (kbd "C-x o") 'ace-window))
+
+(use-package window-number
   :ensure t
+  :load-path site-lisp
   :config
-  (global-set-key (kbd "C-x o") 'ace-window))
+  (window-number-mode 1)
+  (window-number-meta-mode 1))
 
 (use-package avy
   :ensure t
@@ -193,6 +204,8 @@
 ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Cursor-Display.html#index-highlight-current-line
 (global-hl-line-mode t)
 
+;; comment/uncomment DWIM
+(global-set-key (kbd "C-M-/") 'comment-or-uncomment-region)
 
 ;; set up which-key
 (use-package which-key
@@ -297,13 +310,63 @@
 ;; always auto-revert file buffers
 (global-auto-revert-mode t)
 
-;; TODO: recentf, expand-region, multiple-cursors, projectile, ivy/swiper/cousel, iedit, smart-parens (remove paredit)
+;; TODO: recentf, expand-region, multiple-cursors, projectile, ivy/swiper/cousel, iedit, smart-parens (remove paredit), neotree
 
 (use-package ag
   :ensure t)
 
-(ido-mode)
-(ido-everywhere)
+;; (ido-mode)
+;; (ido-everywhere)
+
+(use-package counsel
+  :ensure t
+  :bind
+  (("M-x" . counsel-M-x)
+   ("M-y" . counsel-yank-pop)
+   :map ivy-minibuffer-map
+   ("M-y" . ivy-next-line)))
+
+(use-package swiper
+  :pin melpa-stable
+  :diminish ivy-mode
+  :ensure t
+  :bind*
+  (("C-s" . swiper)
+   ("C-c C-r" . ivy-resume)
+   ("C-x C-f" . counsel-find-file)
+   ("C-c h f" . counsel-describe-function)
+   ("C-c h v" . counsel-describe-variable)
+   ("C-c i u" . counsel-unicode-char)
+   ("M-i" . counsel-imenu)
+   ("C-c g" . counsel-git)
+   ("C-c j" . counsel-git-grep)
+   ("C-c k" . counsel-ag)
+   ("C-c l" . scounsel-locate))
+  :config
+  (progn
+    (ivy-mode 1)
+    (setq ivy-use-virtual-buffers t)
+    (define-key read-expression-map (kbd "C-r") #'counsel-expression-history)
+    (ivy-set-actions
+     'counsel-find-file
+     '(("d" (lambda (x) (delete-file (expand-file-name x)))
+	"delete"
+	)))
+    (ivy-set-actions
+     'ivy-switch-buffer
+     '(("k"
+	(lambda (x)
+	  (kill-buffer x)
+	  (ivy--reset-state ivy-last))
+	"kill")
+       ("j"
+	ivy--switch-buffer-other-window-action
+	"other window")))))
+
+;; (use-package counsel-projectile
+;;   :ensure t
+;;   :config
+;;   (counsel-projectile-on))
 
 (message "done init.el...")
 
