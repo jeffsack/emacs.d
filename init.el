@@ -240,6 +240,8 @@
             (lambda()
               (rainbow-delimiters-mode))))
 
+(show-paren-mode)
+
 (use-package aggressive-indent
   :ensure t
   :config
