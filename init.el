@@ -207,6 +207,8 @@
 ;; comment/uncomment DWIM
 (global-set-key (kbd "C-M-/") 'comment-or-uncomment-region)
 
+(global-set-key (kbd "C-x f") 'project-find-file)
+
 ;; set up which-key
 (use-package which-key
   :ensure t
