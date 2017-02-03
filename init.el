@@ -13,7 +13,7 @@
  '(ido-mode (quote both) nil (ido))
  '(package-selected-packages
    (quote
-    (window-number window-numbering multiple-cursors try counsel ace-window which-key use-package restclient rainbow-delimiters paredit-everywhere magit company-flx color-theme-sanityinc-tomorrow color-identifiers-mode clj-refactor bm beacon aggressive-indent))))
+    (iedit window-number window-numbering multiple-cursors try counsel ace-window which-key use-package restclient rainbow-delimiters paredit-everywhere magit company-flx color-theme-sanityinc-tomorrow color-identifiers-mode clj-refactor bm beacon aggressive-indent))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
