@@ -1,6 +1,8 @@
 
 (message "inside init.el")
 
+(setq inhibit-startup-screen t)
+
 ;; moving the customize "mess" outside of init.el (finally)
 (setq custom-file (concat user-emacs-directory "customize.el"))
 (load custom-file)
@@ -93,6 +95,23 @@
 ;; enable this handy command
 (put 'narrow-to-region 'disabled nil)
 
+;; manage backup and autosave files
+(setq backup-directory-alist '((".*" . "~/.emacs.d/backup")))
+(setq version-control t)
+(setq delete-old-versions t)
+
+(setq auto-save-list-file-prefix "~/.emacs.d/autosave/")
+(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/autosave/" t)))
+
+
+(use-package diminish
+  :ensure t)
+
+(use-package smart-mode-line
+  :ensure t
+  :config
+  (sml/setup))
+
 (use-package key-chord
   :ensure t
   :config
@@ -100,6 +119,7 @@
 
 (use-package undo-tree
   :ensure t
+  :diminish undo-tree-mode
   :config
   (global-undo-tree-mode 1)
   (global-set-key (kbd "C-z") 'undo)
@@ -175,6 +195,7 @@
 ;; highlight cursor when it moves
 (use-package beacon
   :ensure t
+  :diminish beacon-mode
   :config
   (beacon-mode 1))
 
@@ -224,11 +245,13 @@
 
 (use-package aggressive-indent
   :ensure t
+  :diminish aggressive-indent-mode
   :config
   (global-aggressive-indent-mode 1))
 
 (use-package color-identifiers-mode
   :ensure t
+  :diminish color-identifiers-mode
   :config
   (global-color-identifiers-mode))
 
@@ -307,11 +330,17 @@
   :config
   (global-set-key (kbd "C-=") 'er/expand-region))
 
-;; TODO: expand-region, multiple-cursors, projectile, ivy/swiper/cousel, iedit, smart-parens (remove paredit), neotree
+
+
+;; TODO: better configure ivy/cousel
+;; TODO: better configure projectile
+
+;; TODO: multiple-cursors, iedit, smart-parens (remove paredit), neotree
 ;; TODO: steal most stuff from here: https://github.com/syl20bnr/spacemacs/tree/master/layers/%2Bos/osx
 ;; TODO: try this: https://github.com/zk-phi/phi-grep
 ;; TODO: borrow from this: https://www.reddit.com/r/emacs/comments/5udtw1/usepackageel_about_to_be_moved_to_emacs_core/ (OR https://www.reddit.com/r/emacs/comments/5udtw1/usepackageel_about_to_be_moved_to_emacs_core/?sort=new#bottom-comments)
 ;; TODO: https://github.com/tam17aki/ace-isearch
+;; TODO: borrow from https://github.com/wasamasa/dotemacs/blob/master/init.org
 
 ;; sources:
 ;; http://planet.emacsen.org/
