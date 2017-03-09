@@ -108,6 +108,8 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 
+(use-package key-chord
+  :config (key-chord-mode 1))
 
 ;; bookmarks package
 ;; (use-package bm
@@ -293,7 +295,9 @@
   ;; In order for Emacs to recognise .boot files as valid Clojure source code
   (add-to-list 'auto-mode-alist '("\\.boot\\'" . clojure-mode))
   (setq cider-refresh-before-fn "boot.user/stop"
-	cider-refresh-after-fn "boot.user/go"))
+	cider-refresh-after-fn "boot.user/go")
+  (key-chord-define cider-mode-map "cb" 'cider-repl-clear-buffer)
+  (key-chord-define cider-mode-map "rs" 'raise-sexp))
 
 (use-package clj-refactor
   :ensure t
