@@ -13,7 +13,7 @@
  '(ido-mode (quote both) nil (ido))
  '(package-selected-packages
    (quote
-    (iedit window-number window-numbering multiple-cursors try counsel ace-window which-key use-package restclient rainbow-delimiters paredit-everywhere magit company-flx color-theme-sanityinc-tomorrow color-identifiers-mode clj-refactor bm beacon aggressive-indent))))
+    (key-chord fancy-narrow iedit window-number window-numbering multiple-cursors try counsel ace-window which-key use-package restclient rainbow-delimiters paredit-everywhere magit company-flx color-theme-sanityinc-tomorrow color-identifiers-mode clj-refactor bm beacon aggressive-indent))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -320,63 +320,57 @@
 (global-auto-revert-mode t)
 
 ;; TODO: recentf, expand-region, multiple-cursors, projectile, ivy/swiper/cousel, iedit, smart-parens (remove paredit), neotree
+;; TODO: steal most stuff from here: https://github.com/syl20bnr/spacemacs/tree/master/layers/%2Bos/osx
+;; TODO: try this: https://github.com/zk-phi/phi-grep
+;; TODO: borrow from this: https://www.reddit.com/r/emacs/comments/5udtw1/usepackageel_about_to_be_moved_to_emacs_core/
+
+(use-package projectile
+  :ensure t)
 
 (use-package ag
   :ensure t)
 
-;; (ido-mode)
-;; (ido-everywhere)
-
 (use-package counsel
-  :ensure t
-  :bind
-  (("M-x" . counsel-M-x)
-   ("M-y" . counsel-yank-pop)
-   :map ivy-minibuffer-map
-   ("M-y" . ivy-next-line)))
+  :ensure t)
 
 (use-package swiper
   :pin melpa-stable
   :diminish ivy-mode
   :ensure t
-  :bind*
-  (("C-s" . swiper)
-   ("C-c C-r" . ivy-resume)
-   ("C-x C-f" . counsel-find-file)
-   ("C-c h f" . counsel-describe-function)
-   ("C-c h v" . counsel-describe-variable)
-   ("C-c i u" . counsel-unicode-char)
-   ("M-i" . counsel-imenu)
-   ("C-c g" . counsel-git)
-   ("C-c j" . counsel-git-grep)
-   ("C-c k" . counsel-ag)
-   ("C-c l" . scounsel-locate))
   :config
-  (progn
-    (ivy-mode 1)
-    (setq ivy-use-virtual-buffers t)
-    (define-key read-expression-map (kbd "C-r") #'counsel-expression-history)
-    (ivy-set-actions
-     'counsel-find-file
-     '(("d" (lambda (x) (delete-file (expand-file-name x)))
-	"delete"
-	)))
-    (ivy-set-actions
-     'ivy-switch-buffer
-     '(("k"
-	(lambda (x)
-	  (kill-buffer x)
-	  (ivy--reset-state ivy-last))
-	"kill")
-       ("j"
-	ivy--switch-buffer-other-window-action
-	"other window")))))
+  (ivy-mode 1)
+  (global-set-key (kbd "C-s") 'swiper)
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+  (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+  (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+  (global-set-key (kbd "<f1> l") 'counsel-find-library)
+  (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+  (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+  (global-set-key (kbd "C-c g") 'counsel-git)
+  (global-set-key (kbd "C-c j") 'counsel-git-grep)
+  (global-set-key (kbd "C-c k") 'counsel-ag)
+  (global-set-key (kbd "C-x l") 'counsel-locate))
 
-;; (use-package counsel-projectile
-;;   :ensure t
-;;   :config
-;;   (counsel-projectile-on))
+(use-package counsel-projectile
+  :ensure t
+  :config
+  (counsel-projectile-on)
+  (global-set-key (kbd "C-c p SPC") 'counsel-projectile)
+
+  (global-set-key (kbd "C-c p f") 'counsel-projectile-find-file)
+  (global-set-key (kbd "C-c p d") 'counsel-projectile-find-dir)
+  (global-set-key (kbd "C-c p b") 'counsel-projectile-switch-to-buffer)
+  (global-set-key (kbd "C-c p s s") 'counsel-projectile-ag)
+  (global-set-key (kbd "C-c p p") 'counsel-projectile-switch-project))
 
 (message "done init.el...")
 
 
+(put 'narrow-to-region 'disabled nil)
+
+;; (use-package key-chord
+;;   :ensure t
+;;   :config
+;;   (key-chord-mode 1)
+;;   (key-chord-define-global "cb" 'cider-repl-clear-buffer))
