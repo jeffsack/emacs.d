@@ -1,6 +1,8 @@
 
 (message "inside init.el")
 
+(toggle-frame-maximized)
+
 (setq inhibit-startup-screen t)
 
 ;; moving the customize "mess" outside of init.el (finally)
@@ -103,6 +105,9 @@
 (setq auto-save-list-file-prefix "~/.emacs.d/autosave/")
 (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/autosave/" t)))
 
+(global-set-key (kbd "s-=") 'text-scale-increase)
+(global-set-key (kbd "s--") 'text-scale-decrease)
+
 
 (use-package diminish
   :ensure t)
@@ -116,6 +121,11 @@
   :ensure t
   :config
   (key-chord-mode 1))
+
+(key-chord-define-global "FM" 'toggle-frame-maximized)
+(key-chord-define-global "jj" 'avy-goto-word-1)
+(key-chord-define-global "jl" 'avy-goto-line)
+(key-chord-define-global "jk" 'avy-goto-char)
 
 (use-package undo-tree
   :ensure t
