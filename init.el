@@ -321,6 +321,12 @@
   (recentf-mode 1)
   (global-set-key "\C-x\ \C-r" 'recentf-open-files))
 
+(use-package expand-region
+  :ensure t
+  :pin melpa
+  :config
+  (global-set-key (kbd "C-=") 'er/expand-region))
+
 ;; TODO: expand-region, multiple-cursors, projectile, ivy/swiper/cousel, iedit, smart-parens (remove paredit), neotree
 ;; TODO: steal most stuff from here: https://github.com/syl20bnr/spacemacs/tree/master/layers/%2Bos/osx
 ;; TODO: try this: https://github.com/zk-phi/phi-grep
