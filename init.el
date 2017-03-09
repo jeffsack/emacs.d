@@ -312,8 +312,15 @@
 ;; TODO: expand-region, multiple-cursors, projectile, ivy/swiper/cousel, iedit, smart-parens (remove paredit), neotree
 ;; TODO: steal most stuff from here: https://github.com/syl20bnr/spacemacs/tree/master/layers/%2Bos/osx
 ;; TODO: try this: https://github.com/zk-phi/phi-grep
-;; TODO: borrow from this: https://www.reddit.com/r/emacs/comments/5udtw1/usepackageel_about_to_be_moved_to_emacs_core/
-;; TODO: OR https://www.reddit.com/r/emacs/comments/5udtw1/usepackageel_about_to_be_moved_to_emacs_core/?sort=new#bottom-comments
+;; TODO: borrow from this: https://www.reddit.com/r/emacs/comments/5udtw1/usepackageel_about_to_be_moved_to_emacs_core/ (OR https://www.reddit.com/r/emacs/comments/5udtw1/usepackageel_about_to_be_moved_to_emacs_core/?sort=new#bottom-comments)
+;; TODO: https://github.com/tam17aki/ace-isearch
+
+;; sources:
+;; http://planet.emacsen.org/
+;; https://emacs.zeef.com/ehartc
+;; https://github.com/emacs-tw/awesome-emacs
+;; http://sachachua.com/blog/category/emacs-news/page/12/
+;; https://www.reddit.com/r/emacs/
 
 (use-package projectile
   :ensure t)
