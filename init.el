@@ -234,6 +234,23 @@
   :config
   (add-hook 'prog-mode-hook #'paredit-everywhere-mode))
 
+;; load Emacs Live paredit extensions
+
+(use-package thingatpt
+  :ensure t)
+
+(load (concat site-lisp "/util-fns.el"))
+
+;;use delete-horizontal-space to completely nuke all whitespace
+(global-set-key (kbd "M-SPC ") 'live-delete-whitespace-except-one)
+
+(load (concat site-lisp "/paredit-conf.el"))
+
+(define-key paredit-mode-map (kbd "M-P")     'live-paredit-previous-top-level-form)
+(define-key paredit-mode-map (kbd "M-N")     'live-paredit-next-top-level-form)
+(define-key paredit-mode-map (kbd "M-d")     'live-paredit-forward-kill-sexp)
+(define-key paredit-mode-map (kbd "C-M-k")   'live-paredit-copy-sexp-at-point)
+
 (use-package rainbow-delimiters
   :ensure t
   :config
