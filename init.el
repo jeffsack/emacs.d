@@ -303,7 +303,13 @@
 ;; always auto-revert file buffers
 (global-auto-revert-mode t)
 
-;; TODO: recentf, expand-region, multiple-cursors, projectile, ivy/swiper/cousel, iedit, smart-parens (remove paredit), neotree
+(use-package recentf
+  :ensure t
+  :config
+  (recentf-mode 1)
+  (global-set-key "\C-x\ \C-r" 'recentf-open-files))
+
+;; TODO: expand-region, multiple-cursors, projectile, ivy/swiper/cousel, iedit, smart-parens (remove paredit), neotree
 ;; TODO: steal most stuff from here: https://github.com/syl20bnr/spacemacs/tree/master/layers/%2Bos/osx
 ;; TODO: try this: https://github.com/zk-phi/phi-grep
 ;; TODO: borrow from this: https://www.reddit.com/r/emacs/comments/5udtw1/usepackageel_about_to_be_moved_to_emacs_core/
