@@ -91,9 +91,21 @@
 ;; so we can just type `y` or `n`
 (fset 'yes-or-no-p 'y-or-n-p)
 
+;; enable this handy command
+(put 'narrow-to-region 'disabled nil)
 
 (use-package key-chord
-  :config (key-chord-mode 1))
+  :ensure t
+  :config
+  (key-chord-mode 1))
+
+(use-package undo-tree
+  :ensure t
+  :config
+  (global-undo-tree-mode 1)
+  (global-set-key (kbd "C-z") 'undo)
+  (defalias 'redo 'undo-tree-redo)
+  (global-set-key (kbd "C-S-z") 'redo))
 
 ;; bookmarks package
 ;; (use-package bm
@@ -365,10 +377,4 @@
 (message "done init.el...")
 
 
-(put 'narrow-to-region 'disabled nil)
 
-;; (use-package key-chord
-;;   :ensure t
-;;   :config
-;;   (key-chord-mode 1)
-;;   (key-chord-define-global "cb" 'cider-repl-clear-buffer))
