@@ -120,13 +120,36 @@
   (key-chord-mode 1))
 
 (key-chord-define-global "FM" 'toggle-frame-maximized)
-(key-chord-define-global "jj" 'avy-goto-word-1)
-(key-chord-define-global "jl" 'avy-goto-line)
-(key-chord-define-global "jk" 'avy-goto-char)
+
+
+(use-package avy
+  :ensure t
+  :config
+  (global-set-key (kbd "C-c g") 'avy-goto-char))
+
+(key-chord-define-global "JW" 'avy-goto-word-1)
+(key-chord-define-global "JL" 'avy-goto-line)
+(key-chord-define-global "JC" 'avy-goto-char)
+
+(use-package ag
+  :ensure t
+  :config
+  (setq ag-highlight-search t)
+  (add-hook 'ag-search-finished-hook
+	    (lambda ()
+	      (next-error-follow-minor-mode))))
+
+(defun my-ag-project-at-point (string)
+  "Slightly customized `ag-project-at-point`"
+  (interactive (list (ag/read-from-minibuffer "Search string")))
+  (let ((ag-arguments (append ag-arguments '("-A 4" "-B 4"))))
+    (ag-project string)))
+
+
+(key-chord-define-global "FF" 'my-ag-project-at-point)
 
 (use-package undo-tree
   :ensure t
-  :diminish undo-tree-mode
   :config
   (global-undo-tree-mode 1)
   (global-set-key (kbd "C-z") 'undo)
@@ -194,15 +217,9 @@
   (window-number-mode 1)
   (window-number-meta-mode 1))
 
-(use-package avy
-  :ensure t
-  :config
-  (global-set-key (kbd "C-c g") 'avy-goto-char))
-
 ;; highlight cursor when it moves
 (use-package beacon
   :ensure t
-  :diminish beacon-mode
   :config
   (beacon-mode 1))
 
@@ -314,7 +331,7 @@
   (add-to-list 'auto-mode-alist '("\\.boot\\'" . clojure-mode))
   (setq cider-refresh-before-fn "boot.user/stop"
 	cider-refresh-after-fn "boot.user/go")
-  (key-chord-define cider-mode-map "cb" 'cider-repl-clear-buffer)
+  (key-chord-define cider-repl-mode-map "cb" 'cider-repl-clear-buffer)
   (key-chord-define cider-mode-map "rs" 'raise-sexp))
 
 (use-package clj-refactor
@@ -328,11 +345,25 @@
   (setq cljr-favor-prefix-notation nil))
 
 
-(use-package color-theme-sanityinc-tomorrow
+;; (use-package color-theme-sanityinc-tomorrow
+;;   :ensure t
+;;   :config
+;;   (color-theme-sanityinc-tomorrow-night))
+
+;; (use-package zenburn-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'zenburn t))
+
+;; (use-package solarized-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'solarized-light t))
+
+(use-package cyberpunk-theme
   :ensure t
   :config
-  (color-theme-sanityinc-tomorrow-night))
-
+  (load-theme 'cyberpunk t))
 
 ;; always auto-revert file buffers
 (global-auto-revert-mode t)
@@ -371,12 +402,8 @@
 (use-package projectile
   :ensure t)
 
-(use-package ag
-  :ensure t)
-
 (use-package swiper
   :pin melpa-stable
-  :diminish ivy-mode
   :ensure t
   :ensure counsel
   :ensure ivy-hydra
