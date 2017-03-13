@@ -108,14 +108,11 @@
 (global-set-key (kbd "s-=") 'text-scale-increase)
 (global-set-key (kbd "s--") 'text-scale-decrease)
 
-
-(use-package diminish
-  :ensure t)
-
 (use-package smart-mode-line
   :ensure t
   :config
-  (sml/setup))
+  (sml/setup)
+  (setq rm-blacklist ".*"))
 
 (use-package key-chord
   :ensure t
@@ -221,7 +218,6 @@
 ;; set up which-key
 (use-package which-key
   :ensure t
-  :diminish which-key-mode
   :config
   (which-key-mode)
   (setq which-key-idle-delay 0.0))
@@ -230,7 +226,6 @@
 ;; TODO: consider switching https://github.com/Fuco1/smartparens
 (use-package paredit
   :ensure t
-  :diminish paredit-mode
   :config
   (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
   (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
@@ -240,7 +235,6 @@
 ;; Ensure paredit is used everywhere!
 (use-package paredit-everywhere
   :ensure t
-  :diminish paredit-everywhere-mode
   :config
   (add-hook 'prog-mode-hook #'paredit-everywhere-mode))
 
@@ -265,20 +259,18 @@
   :ensure t
   :config
   (add-hook 'lisp-mode-hook
-            (lambda()
+            (lambda ()
               (rainbow-delimiters-mode))))
 
 (show-paren-mode)
 
 (use-package aggressive-indent
   :ensure t
-  :diminish aggressive-indent-mode
   :config
   (global-aggressive-indent-mode 1))
 
 (use-package color-identifiers-mode
   :ensure t
-  :diminish color-identifiers-mode
   :config
   (global-color-identifiers-mode))
 
