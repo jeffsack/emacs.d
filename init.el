@@ -120,7 +120,7 @@
   (key-chord-mode 1))
 
 (key-chord-define-global "FM" 'toggle-frame-maximized)
-
+(key-chord-define-global "pm" 'paredit-mode)
 
 (use-package avy
   :ensure t
