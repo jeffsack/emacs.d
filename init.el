@@ -326,8 +326,11 @@
   (add-hook 'clojure-mode-hook #'paredit-mode)
   (add-hook 'cider-repl-mode-hook #'paredit-mode)
   (add-hook 'cider-repl-mode-hook #'subword-mode)
+  (setq cider-repl-wrap-history t)
+  (setq cider-repl-history-size 1000)
+  (setq cider-repl-history-file ".cider-repl-history")
   (setq cider-repl-use-pretty-printing t)
-  ;; In order for Emacs to recognise .boot files as valid Clojure source code
+  ;; In order for Emacs to recognize .boot files as valid Clojure source code
   (add-to-list 'auto-mode-alist '("\\.boot\\'" . clojure-mode))
   (setq cider-refresh-before-fn "boot.user/stop"
 	cider-refresh-after-fn "boot.user/go")
