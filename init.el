@@ -134,17 +134,18 @@
 (use-package ag
   :ensure t
   :config
-  (setq ag-highlight-search t)
-  (add-hook 'ag-search-finished-hook
-	    (lambda ()
-	      (next-error-follow-minor-mode))))
+  (setq ag-highlight-search t))
+
+(defun my-ag-search-finished-hook ()
+  (next-error-follow-minor-mode)
+  (remove-hook 'ag-search-finished-hook 'my-ag-search-finished-hook))
 
 (defun my-ag-project-at-point (string)
   "Slightly customized `ag-project-at-point`"
   (interactive (list (ag/read-from-minibuffer "Search string")))
   (let ((ag-arguments (append ag-arguments '("-A 4" "-B 4"))))
+    (add-hook 'ag-search-finished-hook 'my-ag-search-finished-hook)
     (ag-project string)))
-
 
 (key-chord-define-global "FF" 'my-ag-project-at-point)
 
