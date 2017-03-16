@@ -120,7 +120,7 @@
   (key-chord-mode 1))
 
 (key-chord-define-global "FM" 'toggle-frame-maximized)
-(key-chord-define-global "pm" 'paredit-mode)
+(key-chord-define-global "PM" 'paredit-mode)
 
 (use-package avy
   :ensure t
@@ -376,6 +376,8 @@
   :ensure t
   :config
   (recentf-mode 1)
+  (setq recentf-max-menu-items 25)
+  (run-at-time nil (* 5 60) 'recentf-save-list)
   (global-set-key "\C-x\ \C-r" 'recentf-open-files))
 
 (use-package expand-region
