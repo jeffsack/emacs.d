@@ -1,3 +1,7 @@
+;; TODO: try https://github.com/Malabarba/paradox
+;; TODO: upgrade ivy https://oremacs.com/2017/04/09/ivy-0.9.0/
+;; TODO: try https://github.com/Kungsgeten/selected.el (see also https://www.reddit.com/r/emacs/comments/63mx6f/how_do_you_use_the_selectel_package_share_some/)
+;; TODO: try: https://github.com/gregsexton/origami.el
 ;; TODO: https://github.com/nflath/recursive-narrow/blob/master/recursive-narrow.el
 ;; TODO: better configure ivy/cousel
 ;; TODO: better configure projectile
