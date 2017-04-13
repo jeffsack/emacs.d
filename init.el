@@ -1,3 +1,20 @@
+;; TODO: https://github.com/nflath/recursive-narrow/blob/master/recursive-narrow.el
+;; TODO: better configure ivy/cousel
+;; TODO: better configure projectile
+
+;; TODO: multiple-cursors, iedit, smart-parens (remove paredit), neotree
+;; TODO: steal most stuff from here: https://github.com/syl20bnr/spacemacs/tree/master/layers/%2Bos/osx
+;; TODO: try this: https://github.com/zk-phi/phi-grep
+;; TODO: borrow from this: https://www.reddit.com/r/emacs/comments/5udtw1/usepackageel_about_to_be_moved_to_emacs_core/ (OR https://www.reddit.com/r/emacs/comments/5udtw1/usepackageel_about_to_be_moved_to_emacs_core/?sort=new#bottom-comments)
+;; TODO: https://github.com/tam17aki/ace-isearch
+;; TODO: borrow from https://github.com/wasamasa/dotemacs/blob/master/init.org
+
+;; sources:
+;; http://planet.emacsen.org/
+;; https://emacs.zeef.com/ehartc
+;; https://github.com/emacs-tw/awesome-emacs
+;; http://sachachua.com/blog/category/emacs-news/page/12/
+;; https://www.reddit.com/r/emacs/
 
 (message "inside init.el")
 
@@ -121,6 +138,7 @@
 
 (key-chord-define-global "FM" 'toggle-frame-maximized)
 (key-chord-define-global "PM" 'paredit-mode)
+(key-chord-define-global "RS" 'replace-string)
 
 (use-package avy
   :ensure t
@@ -385,25 +403,6 @@
   :pin melpa
   :config
   (global-set-key (kbd "C-=") 'er/expand-region))
-
-
-
-;; TODO: better configure ivy/cousel
-;; TODO: better configure projectile
-
-;; TODO: multiple-cursors, iedit, smart-parens (remove paredit), neotree
-;; TODO: steal most stuff from here: https://github.com/syl20bnr/spacemacs/tree/master/layers/%2Bos/osx
-;; TODO: try this: https://github.com/zk-phi/phi-grep
-;; TODO: borrow from this: https://www.reddit.com/r/emacs/comments/5udtw1/usepackageel_about_to_be_moved_to_emacs_core/ (OR https://www.reddit.com/r/emacs/comments/5udtw1/usepackageel_about_to_be_moved_to_emacs_core/?sort=new#bottom-comments)
-;; TODO: https://github.com/tam17aki/ace-isearch
-;; TODO: borrow from https://github.com/wasamasa/dotemacs/blob/master/init.org
-
-;; sources:
-;; http://planet.emacsen.org/
-;; https://emacs.zeef.com/ehartc
-;; https://github.com/emacs-tw/awesome-emacs
-;; http://sachachua.com/blog/category/emacs-news/page/12/
-;; https://www.reddit.com/r/emacs/
 
 (use-package projectile
   :ensure t)
