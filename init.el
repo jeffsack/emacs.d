@@ -360,7 +360,17 @@
   (setq cider-refresh-before-fn "boot.user/stop"
 	cider-refresh-after-fn "boot.user/go")
   (key-chord-define cider-repl-mode-map "cb" 'cider-repl-clear-buffer)
-  (key-chord-define cider-mode-map "rs" 'raise-sexp))
+  (key-chord-define cider-mode-map "rs" 'raise-sexp)
+
+  ;; more custom dev stuff
+  (defun centriq-web-in-dev ()
+    (interactive)
+    (cider-interactive-eval
+     "(boot.user/in-dev)")
+    (cider-repl-set-ns "centriq-web.dev"))
+
+  (define-key cider-mode-map (kbd "s-d") 'centriq-web-in-dev)
+  (define-key cider-repl-mode-map (kbd "s-d") 'centriq-web-in-dev))
 
 (use-package clj-refactor
   :ensure t
@@ -450,7 +460,8 @@
   (global-set-key (kbd "C-c p s s") 'counsel-projectile-ag)
   (global-set-key (kbd "C-c p p") 'counsel-projectile-switch-project))
 
+
+(use-package swift-mode
+  :ensure t)
+
 (message "done init.el...")
-
-
-
