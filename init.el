@@ -47,8 +47,10 @@
 
 ;; secure emacs
 (require 'cl)
-(setq tls-checktrust t)
+(setq tls-checktrust nil)
 
+;; https://pip.pypa.io/en/stable/installing/
+;; python -m pip install --user certifi
 (setq python (or (executable-find "py.exe")
                  (executable-find "python")))
 
