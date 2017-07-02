@@ -12,6 +12,7 @@
 ;; TODO: borrow from this: https://www.reddit.com/r/emacs/comments/5udtw1/usepackageel_about_to_be_moved_to_emacs_core/ (OR https://www.reddit.com/r/emacs/comments/5udtw1/usepackageel_about_to_be_moved_to_emacs_core/?sort=new#bottom-comments)
 ;; TODO: https://github.com/tam17aki/ace-isearch
 ;; TODO: borrow from https://github.com/wasamasa/dotemacs/blob/master/init.org
+;; TODO: try https://github.com/jacktasia/dumb-jump
 
 ;; sources:
 ;; http://planet.emacsen.org/
@@ -128,6 +129,7 @@
 
 (global-set-key (kbd "s-=") 'text-scale-increase)
 (global-set-key (kbd "s--") 'text-scale-decrease)
+(global-set-key (kbd "M-s-R") 'replace-string)
 
 (use-package smart-mode-line
   :ensure t
@@ -142,16 +144,19 @@
 
 (key-chord-define-global "FM" 'toggle-frame-maximized)
 (key-chord-define-global "PM" 'paredit-mode)
-(key-chord-define-global "RS" 'replace-string)
+;;(key-chord-define-global "RS" 'replace-string)
 
 (use-package avy
   :ensure t
   :config
   (global-set-key (kbd "C-c g") 'avy-goto-char))
 
-(key-chord-define-global "JW" 'avy-goto-word-1)
-(key-chord-define-global "JL" 'avy-goto-line)
-(key-chord-define-global "JC" 'avy-goto-char)
+;;(key-chord-define-global "JW" 'avy-goto-word-1)
+;;(key-chord-define-global "JL" 'avy-goto-line)
+;;(key-chord-define-global "JC" 'avy-goto-char)
+(global-set-key (kbd "s-g") 'avy-goto-line)
+(global-set-key (kbd "M-s-g") 'avy-goto-word-1)
+(global-set-key (kbd "C-M-s-g") 'avy-goto-char)
 
 (use-package ag
   :ensure t
@@ -357,8 +362,11 @@
   (add-to-list 'auto-mode-alist '("\\.boot\\'" . clojure-mode))
   (setq cider-refresh-before-fn "boot.user/stop"
 	cider-refresh-after-fn "boot.user/go")
-  (key-chord-define cider-repl-mode-map "cb" 'cider-repl-clear-buffer)
-  (key-chord-define cider-mode-map "rs" 'raise-sexp)
+  ;;(key-chord-define cider-repl-mode-map "cb" 'cider-repl-clear-buffer)
+  ;;(key-chord-define cider-mode-map "rs" 'raise-sexp)
+  (define-key cider-repl-mode-map (kbd "s-k") 'cider-repl-clear-buffer)
+  (define-key cider-repl-mode-map (kbd "s-r") 'raise-sexp)
+  (define-key cider-mode-map (kbd "s-r") 'raise-sexp)
 
   ;; more custom dev stuff
   (defun centriq-web-in-dev ()
@@ -461,5 +469,16 @@
 
 (use-package swift-mode
   :ensure t)
+
+(use-package dumb-jump
+  :ensure t
+  :config
+  (dumb-jump-mode))
+
+(use-package keyfreq
+  :ensure t
+  :config
+  (keyfreq-mode 1)
+  (keyfreq-autosave-mode 1))
 
 (message "done init.el...")
