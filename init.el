@@ -169,6 +169,12 @@
   (next-error-follow-minor-mode)
   (remove-hook 'ag-search-finished-hook 'my-ag-search-finished-hook))
 
+;; (defun my-cider-quit-and-connect ()
+;;   "Just cider-quit and then cider-connect"
+;;   (interactive)
+;;   (cider-quit)
+;;   (cider-connect))
+
 (defun my-ag-project-at-point (string)
   "Slightly customized `ag-project-at-point`"
   (interactive (list (ag/read-from-minibuffer "Search string")))
@@ -369,7 +375,10 @@
   (define-key cider-repl-mode-map (kbd "s-k") 'cider-repl-clear-buffer)
   (define-key cider-repl-mode-map (kbd "s-r") 'raise-sexp)
   (define-key cider-mode-map (kbd "s-r") 'raise-sexp)
-
+  (define-key cider-repl-mode-map (kbd "C-M-s-q") 'cider-quit)
+  (define-key cider-mode-map (kbd "C-M-s-q") 'cider-quit)
+  (define-key cider-repl-mode-map (kbd "C-M-s-c") 'cljr-cycle-coll)
+  (define-key cider-mode-map (kbd "C-M-s-c") 'cljr-cycle-coll)
   ;; more custom dev stuff
   (defun centriq-web-in-dev ()
     (interactive)
@@ -466,6 +475,7 @@
   (global-set-key (kbd "C-c p d") 'counsel-projectile-find-dir)
   (global-set-key (kbd "C-c p b") 'counsel-projectile-switch-to-buffer)
   (global-set-key (kbd "C-c p s s") 'counsel-projectile-ag)
+  (global-set-key (kbd "C-M-s-f") 'counsel-projectile-ag)
   (global-set-key (kbd "C-c p p") 'counsel-projectile-switch-project))
 
 
