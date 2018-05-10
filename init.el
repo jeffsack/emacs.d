@@ -21,6 +21,9 @@
 ;; http://sachachua.com/blog/category/emacs-news/page/12/
 ;; https://www.reddit.com/r/emacs/
 
+
+
+
 (message "inside init.el")
 
 (toggle-frame-maximized)
@@ -184,6 +187,7 @@
 
 ;;(key-chord-define-global "FF" 'my-ag-project-at-point)
 (global-set-key (kbd "C-s-a") 'my-ag-project-at-point)
+(global-set-key (kbd "C-M-s-a") 'isearch-forward-symbol-at-point)
 
 (use-package undo-tree
   :ensure t
@@ -364,7 +368,7 @@
   (add-hook 'cider-repl-mode-hook #'paredit-mode)
   (add-hook 'cider-repl-mode-hook #'subword-mode)
   (setq cider-repl-wrap-history t)
-  (setq cider-repl-history-size 1000)
+  (setq cider-repl-history-size 10000)
   (setq cider-repl-history-file ".cider-repl-history")
   (setq cider-repl-use-pretty-printing t)
   ;; In order for Emacs to recognize .boot files as valid Clojure source code
@@ -385,7 +389,9 @@
   (defun centriq-web-in-dev ()
     (interactive)
     (cider-interactive-eval
-     "(boot.user/in-dev)")
+     ;;"(centriq-web.lein/in-dev)"
+     "(boot.user/in-dev)"
+     )
     (cider-repl-set-ns "centriq-web.dev"))
 
   (define-key cider-mode-map (kbd "s-d") 'centriq-web-in-dev)
@@ -429,8 +435,9 @@
   :ensure t
   :config
   (recentf-mode 1)
-  (setq recentf-max-menu-items 25)
-  (run-at-time nil (* 5 60) 'recentf-save-list)
+  (setq recentf-max-menu-items 100)
+  (run-at-time nil (* 30 60) 'recentf-save-list) ;; save every 30 minutes
+  (setq recentf-save-file (concat user-emacs-directory "recentf." (system-name)))
   (global-set-key "\C-x\ \C-r" 'recentf-open-files))
 
 (use-package expand-region
@@ -440,7 +447,9 @@
   (global-set-key (kbd "C-=") 'er/expand-region))
 
 (use-package projectile
-  :ensure t)
+  :ensure t
+  :config
+  (add-to-list 'projectile-globally-ignored-directories "node_modules" ".ignored"))
 
 (use-package swiper
   :pin melpa-stable
@@ -470,7 +479,8 @@
 (use-package counsel-projectile
   :ensure t
   :config
-  (counsel-projectile-on)
+  ;;(counsel-projectile-on)
+  (counsel-projectile-mode t)
   (global-set-key (kbd "C-c p SPC") 'counsel-projectile)
 
   (global-set-key (kbd "C-c p f") 'counsel-projectile-find-file)
@@ -535,5 +545,12 @@
   :bind (:map global-map
               ("C-M-s-p" . treemacs-projectile)
               ("C-s-p" . treemacs-projectile-toggle)))
+
+;; https://stackoverflow.com/questions/2577394/emacs-split-into-3-even-windows
+(defadvice split-window-horizontally
+    (after rebalance-windows activate)
+  (balance-windows))
+
+(ad-activate 'split-window-horizontally)
 
 (message "done init.el...")
