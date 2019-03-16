@@ -51,7 +51,7 @@
 
 ;; secure emacs
 (require 'cl)
-(setq tls-checktrust nil)
+;;(setq tls-checktrust nil)
 
 ;; https://pip.pypa.io/en/stable/installing/
 ;; python -m pip install --user certifi
@@ -68,7 +68,7 @@
         (list
          (format "gnutls-cli%s --x509cafile %s -p %%p %%h"
                  (if (eq window-system 'w32) ".exe" "") trustfile)))
-  (setq gnutls-verify-error t)
+  ;;(setq gnutls-verify-error t)
   (setq gnutls-trustfiles (list trustfile)))
 
 
@@ -162,6 +162,12 @@
 (global-set-key (kbd "s-g") 'avy-goto-line)
 (global-set-key (kbd "M-s-g") 'avy-goto-word-1)
 (global-set-key (kbd "C-M-s-g") 'avy-goto-char)
+
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
 
 (use-package ag
   :ensure t
@@ -468,7 +474,7 @@
   (global-set-key (kbd "<f1> l") 'counsel-find-library)
   (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
   (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-  
+
   (global-set-key (kbd "C-c g") 'counsel-git)
   (global-set-key (kbd "C-c j") 'counsel-git-grep)
   (global-set-key (kbd "C-c k") 'counsel-ag)
@@ -509,7 +515,7 @@
   :ensure t
   :defer t
   :config
-  (progn 
+  (progn
     (setq treemacs-follow-after-init          t
           treemacs-width                      35
           treemacs-indentation                2
@@ -552,5 +558,29 @@
   (balance-windows))
 
 (ad-activate 'split-window-horizontally)
+
+;; from http://emacsredux.com/blog/2013/04/02/move-current-line-up-or-down/
+(defun move-line-up ()
+  "Move up the current line."
+  (interactive)
+  (transpose-lines 1)
+  (forward-line -2)
+  (indent-according-to-mode))
+
+(defun move-line-down ()
+  "Move down the current line."
+  (interactive)
+  (forward-line 1)
+  (transpose-lines 1)
+  (forward-line -1)
+  (indent-according-to-mode))
+
+(global-set-key [(meta shift up)]  'move-line-up)
+(global-set-key [(meta shift down)]  'move-line-down)
+(global-set-key [(control shift up)]  'move-line-up)
+(global-set-key [(control shift down)]  'move-line-down)
+
+(add-hook 'before-save-hook
+          'delete-trailing-whitespace)  ; remove trailing whitespace before saving
 
 (message "done init.el...")
